@@ -19,6 +19,7 @@ namespace Breakernoid
         SpriteBatch spriteBatch;
         Texture2D bgTexture;
         Paddle paddle;
+        Ball ball;
 
         public Game1()
             : base()
@@ -57,6 +58,10 @@ namespace Breakernoid
             paddle = new Paddle(this);
             paddle.LoadContent();
             paddle.position = new Vector2(512, 740);
+
+            ball = new Ball(this);
+            ball.LoadContent();
+            ball.position = new Vector2(512, 740);
         }
 
         /// <summary>
@@ -76,7 +81,10 @@ namespace Breakernoid
         protected override void Update(GameTime gameTime)
         {
             // TODO: Add your update logic here
-
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            paddle.Update(deltaTime);
+            ball.Update(deltaTime);
+            this.CheckCollisions();
             base.Update(gameTime);
         }
 
@@ -93,9 +101,28 @@ namespace Breakernoid
             // Draw all sprites here
             spriteBatch.Draw(bgTexture, new Vector2(0, 0), Color.White);
             paddle.Draw(spriteBatch);
+            ball.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        protected void CheckCollisions()
+        {
+            float radius = ball.Width / 2;
+            if (Math.Abs(ball.position.X - 32) < radius)
+            {
+                ball.direction.X = -1.0f * ball.direction.X;
+            }
+            else if (Math.Abs(ball.position.X - 992) < radius)
+            {
+                ball.direction.X = -1.0f * ball.direction.X;
+            }
+
+            if (Math.Abs(ball.position.Y - 32) < radius)
+            {
+                ball.direction.Y = -1.0f * ball.direction.Y;
+            }
         }
     }
 }

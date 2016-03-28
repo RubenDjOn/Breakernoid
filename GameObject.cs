@@ -17,6 +17,17 @@ namespace Breakernoid
         protected Game game;
         public Vector2 position = Vector2.Zero;
 
+        public float Width
+        {
+            get { return texture.Width; }
+        }
+
+        public float Height
+        {
+            get { return texture.Height; }
+        }
+
+
         public GameObject(Game myGame)
         {
             game = myGame;
