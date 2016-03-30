@@ -61,7 +61,7 @@ namespace Breakernoid
 
             ball = new Ball(this);
             ball.LoadContent();
-            ball.position = new Vector2(512, 740);
+            ball.position = new Vector2(512, 720);
         }
 
         /// <summary>
@@ -110,6 +110,18 @@ namespace Breakernoid
         protected void CheckCollisions()
         {
             float radius = ball.Width / 2;
+
+            // Paddle collision
+            if (
+                (ball.position.X > (paddle.position.X - radius - paddle.Width / 2)) &&
+                (ball.position.X < (paddle.position.X + radius + paddle.Width / 2)) &&
+                (ball.position.Y < paddle.position.Y) &&
+                (ball.position.Y > (paddle.position.Y - radius - paddle.Height / 2))
+            )
+            {
+                ball.direction.Y = -1.0f * ball.direction.Y;
+            }
+
             if (Math.Abs(ball.position.X - 32) < radius)
             {
                 ball.direction.X = -1.0f * ball.direction.X;
@@ -119,10 +131,19 @@ namespace Breakernoid
                 ball.direction.X = -1.0f * ball.direction.X;
             }
 
+            //Top collision
             if (Math.Abs(ball.position.Y - 32) < radius)
             {
                 ball.direction.Y = -1.0f * ball.direction.Y;
             }
+
+            // Floor collision
+            /*if (Math.Abs(ball.position.Y - 768) < radius)
+            {
+                ball.direction.Y = -1.0f * ball.direction.Y;
+            }*/
+
+
         }
     }
 }
